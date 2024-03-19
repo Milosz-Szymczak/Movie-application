@@ -31,7 +31,6 @@ public class Movie {
     private String description;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    @JoinColumn(name = "movie")
     private List<Rating> ratings;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
