@@ -6,8 +6,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
+import pl.milosz.moviedatabase.exception.UserNotFoundException;
 import pl.milosz.moviedatabase.security.repository.UserRepository;
 
 import java.util.List;
@@ -25,8 +30,15 @@ class UserServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private Authentication authentication;
+
+    @Mock
+    private SecurityContext securityContext;
+
     @InjectMocks
     private UserServiceImpl userService;
+
     @Test
     void saveUser_ValidUser_SuccessfullySaved() {
         User user = new User();
@@ -100,5 +112,32 @@ class UserServiceImplTest {
 
         verify(userRepository).findByRole(User.Role.ADMIN);
         verify(userRepository, times(0)).save(any(User.class));
+    }
+
+    @Test
+    void findLoggedUser_Should_FoundUser() {
+        String username = "testUser";
+        User user = new User();
+        user.setUsername(username);
+
+        when(authentication.getName()).thenReturn(username);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+
+        UserDto result = userService.findLoggedUser();
+
+        assertEquals(username, result.getUsername());
+    }
+
+    @Test
+    public void testFindLoggedUser_Should_NotFoundUser() {
+        String username = "nonExistentUser";
+        when(authentication.getName()).thenReturn(username);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> userService.findLoggedUser());
     }
 }
