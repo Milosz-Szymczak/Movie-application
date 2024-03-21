@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends ListCrudRepository<User, Long> {
 
+    Optional<User> findByUsername(String username);
     Optional<User> findByRole(User.Role role);
 }
