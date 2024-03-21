@@ -36,4 +36,14 @@ class UserRepositoryTest {
         Assertions.assertThat(findUserByRole).isNotNull();
         Assertions.assertThat(findUserByRole.get().getRole()).isEqualTo(admin.getRole());
     }
+
+    @Test
+    void findByUsername_should_ReturnUserByUsername() {
+        userRepository.save(admin);
+
+        Optional<User> findByUsername = userRepository.findByUsername(admin.getUsername());
+
+        Assertions.assertThat(findByUsername.get()).isEqualTo(admin);
+        Assertions.assertThat(findByUsername).isNotNull();
+    }
 }
