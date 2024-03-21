@@ -2,9 +2,14 @@ package pl.milosz.moviedatabase.security.service;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
+import pl.milosz.moviedatabase.exception.UserNotFoundException;
+import pl.milosz.moviedatabase.mapper.UserMapper;
 import pl.milosz.moviedatabase.security.repository.UserRepository;
 
 
@@ -20,6 +25,18 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    public UserDto findLoggedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUsername(user);
+
+        if (userOptional.isPresent()){
+            return UserMapper.toDto(userOptional.get());
+        }else {
+            throw new UserNotFoundException("User not found in database");
+        }
+    }
 
     @Override
     public void saveUser(User user) {

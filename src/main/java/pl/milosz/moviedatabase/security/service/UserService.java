@@ -1,5 +1,6 @@
 package pl.milosz.moviedatabase.security.service;
 
+import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     Optional<User> checkAdminExist();
+
+    UserDto findLoggedUser();
 }
