@@ -27,7 +27,7 @@
                             <!-- Release Year Input -->
                             <div class="mb-3">
                                 <label for="releaseYear" class="form-label">Release Year <span class="text-danger">*</span></label>
-                                <input th:field="*{releaseYear}" type="number" class="form-control" id="releaseYear" name="releaseYear" placeholder="Enter release year" required>
+                                <input th:field="*{releaseYear}" type="number" class="form-control" id="releaseYear" name="releaseYear" placeholder="Enter release year" min="1000" max="9999" required >
                             </div>
 
                             <!-- Category Selection -->
@@ -40,8 +40,8 @@
 
                             <!-- Description Input -->
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
-                                <textarea th:field="*{description}" class="form-control" id="description" name="description" placeholder="Enter movie description" required></textarea>
+                                <label for="description" class="form-label">Description (max. 200 characters)<span class="text-danger">*</span></label>
+                                <textarea th:field="*{description}" class="form-control" id="description" name="description" placeholder="Enter movie description" required maxlength="200"></textarea>
                             </div>
 
                             <div class="d-grid">
