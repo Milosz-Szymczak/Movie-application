@@ -7,6 +7,7 @@ import pl.milosz.moviedatabase.mapper.MovieMapper;
 import pl.milosz.moviedatabase.repository.MovieRepository;
 import pl.milosz.moviedatabase.service.MovieService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -24,4 +25,18 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.save(movie);
     }
 
+    @Override
+    public Movie getMovieById(Long movieId) {
+        Optional<Movie> movieById = movieRepository.findById(movieId);
+        if (movieById.isPresent()) {
+            return movieById.get();
+        }else {
+            throw new NoSuchElementException("Movie not found with ID: " + movieId);
+        }
+    }
+
+    @Override
+    public List<MovieDto> getAllMovies() {
+        return movieRepository.findAll().stream().map(MovieMapper::toDto).toList();
+    }
 }
