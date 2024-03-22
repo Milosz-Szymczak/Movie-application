@@ -14,4 +14,14 @@ public class MovieMapper {
                 .description(movieDto.getDescription())
                 .build();
     }
+
+    public static MovieDto toDto(Movie movie) {
+        return MovieDto.builder()
+                .movieId(movie.getMovieId())
+                .title(movie.getTitle())
+                .releaseYear(movie.getReleaseYear())
+                .category(MovieDto.Category.valueOf(movie.getCategory().name()))
+                .description(movie.getDescription())
+                .build();
+    }
 }
