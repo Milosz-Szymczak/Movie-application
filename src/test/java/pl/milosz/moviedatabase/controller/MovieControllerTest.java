@@ -49,14 +49,14 @@ class MovieControllerTest {
     @Test
     void homePage_should_ReturnViewWithMovies() throws Exception {
         List<MovieDto> movies = new ArrayList<>();
-        movies.add(MovieDto.builder().title("test").build());
+        movies.add(MovieDto.builder().title("test").category(MovieDto.Category.ACTION).build());
 
         when(movieService.getAllMovies()).thenReturn(movies);
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("movies", movies))
-                .andExpect(view().name("guest_html/home"));
+                .andExpect(view().name("guest/home"));
 
         verify(movieService).getAllMovies();
     }
