@@ -39,6 +39,24 @@ public class MovieController {
     public String homePage(Model model) {
         List<MovieDto> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
+        model.addAttribute("categories", MovieDto.Category.values());
+        return "guest/home";
+    }
+
+    @GetMapping("/selectCategory")
+    public String getFilteredMovies(@RequestParam(name = "category", required = false) String selectedCategory, Model model) {
+        List<MovieDto> filteredMovies;
+
+        if (selectedCategory != null && !selectedCategory.isEmpty() && !selectedCategory.equals("ALL_CATEGORIES")) {
+            Movie.Category  category = Movie.Category.valueOf(selectedCategory);
+            filteredMovies = movieService.getMoviesByCategory(category);
+        } else {
+            filteredMovies = movieService.getAllMovies();
+        }
+
+        model.addAttribute("movies", filteredMovies);
+        model.addAttribute("categories", Movie.Category.values());
+
         return "guest/home";
     }
 

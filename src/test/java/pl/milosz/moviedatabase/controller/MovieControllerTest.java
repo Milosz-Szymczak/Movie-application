@@ -19,6 +19,7 @@ import pl.milosz.moviedatabase.service.RatingService;
 import pl.milosz.moviedatabase.service.UserMovieRelationService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -173,5 +174,47 @@ class MovieControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/movie/1"));
 
+    }
+
+
+    @Test
+    void getFilteredMovies_should_ReturnFilteredMovies_WhenCategorySelected() throws Exception {
+        //Given
+        String selectedCategory = String.valueOf(Movie.Category.ACTION);
+        MovieDto movie = MovieDto.builder().movieId(1L).title("test").category(MovieDto.Category.ACTION).build();
+
+        List<MovieDto> expectedMovies = Arrays.asList(movie, movie);
+
+        //When
+        when(movieService.getMoviesByCategory(Movie.Category.ACTION)).thenReturn(expectedMovies);
+
+        //Then
+        mockMvc.perform(get("/selectCategory")
+                        .param("category", selectedCategory))
+                .andExpect(status().isOk())
+                .andExpect(view().name("guest/home"))
+                .andExpect(model().attributeExists("movies"))
+                .andExpect(model().attribute("movies", expectedMovies))
+                .andExpect(model().attributeExists("categories"));
+        verify(movieService, times(1)).getMoviesByCategory(Movie.Category.ACTION);
+    }
+
+    @Test
+    void getFilteredMovies_should_ReturnAllMovies_WhenNoCategorySelected() throws Exception {
+        // Given
+        MovieDto movie = MovieDto.builder().movieId(1L).title("test").category(MovieDto.Category.ACTION).build();
+        List<MovieDto> expectedMovies = Arrays.asList(movie, movie);
+
+        // When
+        when(movieService.getAllMovies()).thenReturn(expectedMovies);
+
+        //Then
+        mockMvc.perform(get("/selectCategory"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("guest/home"))
+                .andExpect(model().attributeExists("movies"))
+                .andExpect(model().attribute("movies", expectedMovies))
+                .andExpect(model().attributeExists("categories"));
+        verify(movieService, times(1)).getAllMovies();
     }
 }
