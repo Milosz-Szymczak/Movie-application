@@ -13,12 +13,33 @@
         .card:hover {
             transform: scale(1.05);
         }
+
+        #category{
+            width: 15rem;
+        }
+
+        #button_filter {
+            margin-top: 0.5rem;
+        }
+
     </style>
 </head>
 <body>
 <header th:insert="~{header.html}"></header>
 
+
+
 <div class="container mt-5">
+    <form th:action="@{/selectCategory}" method="get" class="g-3">
+        <div class="form-group">
+            <label for="category">Choose a category:</label>
+            <select id="category" name="category" class="form-control">
+                <option th:value="ALL_CATEGORIES">All Kinds</option>
+                <option th:each="category : ${categories}" th:value="${category.name()}" th:text="${category.name}"></option>
+            </select>
+            <button id="button_filter" type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
     <h1>Movies List</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div th:each="movie : ${movies}" class="col">
