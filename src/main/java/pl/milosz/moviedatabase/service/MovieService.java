@@ -11,4 +11,6 @@ public interface MovieService {
     Movie getMovieById(Long movieId);
 
     List<MovieDto> getAllMovies();
+
+    List<MovieDto> getMoviesByCategory(Movie.Category category);
 }

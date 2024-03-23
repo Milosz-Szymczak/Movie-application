@@ -39,4 +39,11 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieDto> getAllMovies() {
         return movieRepository.findAll().stream().map(MovieMapper::toDto).toList();
     }
+
+    @Override
+    public List<MovieDto> getMoviesByCategory(Movie.Category category) {
+        return movieRepository.findAll().stream()
+                .filter(m -> m.getCategory().equals(category))
+                .map(MovieMapper::toDto).toList();
+    }
 }
