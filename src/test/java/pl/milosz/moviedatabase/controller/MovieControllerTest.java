@@ -15,6 +15,7 @@ import pl.milosz.moviedatabase.entity.Movie;
 import pl.milosz.moviedatabase.security.service.UserService;
 import pl.milosz.moviedatabase.service.AwardService;
 import pl.milosz.moviedatabase.service.MovieService;
+import pl.milosz.moviedatabase.service.RatingService;
 import pl.milosz.moviedatabase.service.UserMovieRelationService;
 
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ class MovieControllerTest {
 
     @MockBean
     private UserMovieRelationService userMovieRelationService;
+
+    @MockBean
+    private RatingService ratingService;
 
     @Test
     void homePage_should_ReturnViewWithMovies() throws Exception {
@@ -129,5 +133,45 @@ class MovieControllerTest {
 
         verify(movieService).getMovieById(movieId);
         verify(awardService).saveAward(any(AwardDto.class));
+    }
+
+    @Test
+    void moviePage_should_ReturnCorrectMovieViewUsingMovieId() throws Exception {
+        //given
+        Long movieId = 1L;
+        Movie movie = Movie.builder().movieId(movieId).title("test").category(Movie.Category.ACTION).build();
+        String ratingOverall = "3.0";
+
+        //when
+        when(movieService.getMovieById(movieId)).thenReturn(movie);
+        when(ratingService.getOverallRatingForMovieById(movieId)).thenReturn(ratingOverall);
+
+        //then
+        mockMvc.perform(get("/movie/{movieId}", movieId))
+                .andExpect(model().attribute("movie", movie))
+                .andExpect(model().attribute("ratingOverall", ratingOverall))
+                .andExpect(status().isOk())
+                .andExpect(view().name("guest/movie"));
+
+        verify(movieService).getMovieById(movieId);
+        verify(ratingService).getOverallRatingForMovieById(movieId);
+    }
+
+    @Test
+    void processMovieRatingRequest_should_RedirectToMoviePage() throws Exception {
+        //given
+        Long movieId = 1L;
+        UserDto userDto = UserDto.builder().userId(2L).build();
+        Movie movie = new Movie();
+
+        when(userService.findLoggedUser()).thenReturn(userDto);
+        when(ratingService.hasUserRatedMovie(movieId, userDto)).thenReturn(false);
+        when(movieService.getMovieById(movieId)).thenReturn(movie);
+
+        mockMvc.perform(post("/rate/{movieId}", movieId)
+                        .param("rating", "5"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/movie/1"));
+
     }
 }
