@@ -40,7 +40,7 @@ public class MovieController {
 
     @GetMapping("/add-movie")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public String moviePage(Model model) {
+    public String moviePageForm(Model model) {
         model.addAttribute("movie", new MovieDto());
         model.addAttribute("category", MovieDto.Category.values());
         return "user/add-movie";
@@ -59,7 +59,7 @@ public class MovieController {
 
     @GetMapping("/add-award")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public String awardPage(@RequestParam("movieId") Long movieId, Model model) {
+    public String awardPageForm(@RequestParam("movieId") Long movieId, Model model) {
         Movie movie = movieService.getMovieById(movieId);
 
         List<AwardDto> awardsMovie = awardService.getAwards(movie);
