@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${movie.title}"></title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<header th:insert="~{header.html}"></header>
+
+<div class="container mt-5">
+    <div class="row justify-content-end rating-form">
+        <div class="col-md-4">
+            <form th:action="@{/rate/{movieId}(movieId = ${movie.getMovieId})}" method="post">
+                <div class="form-group">
+                    <label for="rating">Rate this movie (1-10):</label>
+                    <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Rating</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 th:text="${movie.title}" class="card-title"></h2>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Release Year:</strong> <span th:text="${movie.releaseYear}"></span></p>
+            <p class="card-text"><strong>Category:</strong> <span th:text="${movie.category.name}"></span></p>
+            <p class="card-text"><strong>Description:</strong> <span th:text="${movie.description}"></span></p>
+            <p class="card-text"><strong>Rating:</strong>
+                <span th:if="${ratingOverall == '0'}" th:text="'No ratings'"></span>
+                <span th:unless="${ratingOverall == '0'}" th:text="${ratingOverall}"></span>
+            </p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h3>Awards</h3></li>
+            <li th:each="award : ${movie.awards}" class="list-group-item" th:text="${award.awardName}"></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
