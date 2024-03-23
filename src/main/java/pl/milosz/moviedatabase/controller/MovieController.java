@@ -11,6 +11,7 @@ import pl.milosz.moviedatabase.entity.Movie;
 import pl.milosz.moviedatabase.security.service.UserService;
 import pl.milosz.moviedatabase.service.AwardService;
 import pl.milosz.moviedatabase.service.MovieService;
+import pl.milosz.moviedatabase.service.RatingService;
 import pl.milosz.moviedatabase.service.UserMovieRelationService;
 
 import java.util.List;
@@ -23,11 +24,14 @@ public class MovieController {
     private final UserMovieRelationService userMovieRelationService;
     private final AwardService awardService;
 
-    public MovieController(MovieService movieService, UserService userService, UserMovieRelationService userMovieRelationService, AwardService awardService) {
+    private final RatingService ratingService;
+
+    public MovieController(MovieService movieService, UserService userService, UserMovieRelationService userMovieRelationService, AwardService awardService, RatingService ratingService) {
         this.movieService = movieService;
         this.userService = userService;
         this.userMovieRelationService = userMovieRelationService;
         this.awardService = awardService;
+        this.ratingService = ratingService;
     }
 
 
@@ -35,7 +39,31 @@ public class MovieController {
     public String homePage(Model model) {
         List<MovieDto> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
-        return "guest_html/home";
+        return "guest/home";
+    }
+
+    @GetMapping("/movie/{movieId}")
+    public String moviePage(@PathVariable Long movieId, Model model) {
+        Movie movieById = movieService.getMovieById(movieId);
+        model.addAttribute("movie", movieById);
+
+        String ratingMovie = ratingService.getOverallRatingForMovieById(movieId);
+        model.addAttribute("ratingOverall", ratingMovie);
+        return "guest/movie";
+    }
+
+    @PostMapping("/rate/{movieId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public String processMovieRatingRequest(@PathVariable Long movieId, @RequestParam("rating") int rating) {
+        UserDto loggedUser = userService.findLoggedUser();
+
+        boolean userCanGiveRating = ratingService.hasUserRatedMovie(movieId, loggedUser);
+        if (!userCanGiveRating) {
+            Movie movieById = movieService.getMovieById(movieId);
+            ratingService.saveRating(movieById, rating, loggedUser);
+        }
+
+        return "redirect:/movie/" + movieId;
     }
 
     @GetMapping("/add-movie")
@@ -53,7 +81,6 @@ public class MovieController {
 
         Movie savedMovie = movieService.saveMovie(movieDto);
         userMovieRelationService.saveRelation(loggedUser, savedMovie);
-
         return "redirect:/add-award?movieId=" + savedMovie.getMovieId();
     }
 
