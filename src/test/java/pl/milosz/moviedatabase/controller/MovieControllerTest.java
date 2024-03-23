@@ -62,7 +62,7 @@ class MovieControllerTest {
     }
 
     @Test
-    void moviePage_should_ReturnViewWithMovie_and_Categories() throws Exception {
+    void moviePageForm_should_ReturnViewWithMovie_and_Categories() throws Exception {
         mockMvc.perform(get("/add-movie"))
                 .andExpect(model().attribute("movie", new MovieDto()))
                 .andExpect(model().attribute("category", MovieDto.Category.values()))
@@ -92,7 +92,7 @@ class MovieControllerTest {
     }
 
     @Test
-    void awardPage_should_ReturnCorrectView() throws Exception {
+    void awardPageForm_should_ReturnCorrectView() throws Exception {
         Long movieId = 1L;
         Movie movie = new Movie();
         movie.setMovieId(movieId);
