@@ -43,6 +43,13 @@ public class MovieController {
         return "guest/home";
     }
 
+    @GetMapping("/search")
+    public String searchMovies(@RequestParam("keyword") String keyword, Model model) {
+        List<MovieDto> searchResults = movieService.searchMovies(keyword);
+        model.addAttribute("movies", searchResults);
+        return "guest/home";
+    }
+
     @GetMapping("/selectCategory")
     public String getFilteredMovies(@RequestParam(name = "category", required = false) String selectedCategory, Model model) {
         List<MovieDto> filteredMovies;
