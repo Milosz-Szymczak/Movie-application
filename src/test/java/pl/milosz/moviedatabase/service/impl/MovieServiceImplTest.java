@@ -59,8 +59,7 @@ class MovieServiceImplTest {
 
         when(movieRepository.findById(movieNotExist.getMovieId())).thenReturn(Optional.empty());
 
-        org.junit.jupiter.api.Assertions.assertThrows(
-                NoSuchElementException.class, () -> movieService.getMovieById(movieNotExist.getMovieId()));
+        assertThrows(NoSuchElementException.class, () -> movieService.getMovieById(movieNotExist.getMovieId()));
 
     }
 
