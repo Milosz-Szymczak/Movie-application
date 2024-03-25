@@ -46,4 +46,11 @@ public class MovieServiceImpl implements MovieService {
                 .filter(m -> m.getCategory().equals(category))
                 .map(MovieMapper::toDto).toList();
     }
+
+    @Override
+    public List<MovieDto> searchMovies(String keyword) {
+        return movieRepository.findByTitleContainingIgnoreCase(keyword).stream()
+                .map(MovieMapper::toDto)
+                .toList();
+    }
 }

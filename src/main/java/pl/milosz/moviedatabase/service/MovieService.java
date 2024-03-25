@@ -13,4 +13,6 @@ public interface MovieService {
     List<MovieDto> getAllMovies();
 
     List<MovieDto> getMoviesByCategory(Movie.Category category);
+
+    List<MovieDto> searchMovies(String keyword);
 }
