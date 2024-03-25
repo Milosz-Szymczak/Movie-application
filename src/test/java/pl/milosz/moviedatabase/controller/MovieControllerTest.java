@@ -217,4 +217,26 @@ class MovieControllerTest {
                 .andExpect(model().attributeExists("categories"));
         verify(movieService, times(1)).getAllMovies();
     }
+
+    @Test
+    void searchMovies_shouldReturnMoviesBasedOnKeyword() throws Exception {
+        //given
+        String keyword = "test";
+        MovieDto movie = MovieDto.builder().movieId(1L).title("test").category(MovieDto.Category.ACTION).build();
+        List<MovieDto> expectedMovies = Arrays.asList(movie, movie);
+
+        //when
+        when(movieService.searchMovies(keyword)).thenReturn(expectedMovies);
+
+        //then
+        mockMvc.perform(get("/search")
+                        .param("keyword", keyword))
+                        .andExpect(status().isOk())
+                        .andExpect(view().name("guest/home"))
+                        .andExpect(model().attribute("movies", expectedMovies));
+
+        verify(movieService).searchMovies(keyword);
+
+    }
+
 }
