@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -105,6 +106,32 @@ class MovieServiceImplTest {
         List<MovieDto> result = movieService.getMoviesByCategory(category);
 
         //Then
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void searchMovies_should_ReturnMoviesBasedOnKeyword() {
+        String keyword = "test";
+        Movie movie = Movie.builder().movieId(1L).category(Movie.Category.ACTION).title("test").build();
+        Movie secondMovie = Movie.builder().movieId(2L).category(Movie.Category.ACTION).title("test").build();
+        List<Movie> searchResults = Arrays.asList(movie, secondMovie);
+
+        when(movieRepository.findByTitleContainingIgnoreCase(keyword)).thenReturn(searchResults);
+
+        List<MovieDto> result = movieService.searchMovies(keyword);
+        assertEquals(2, result.size());
+        assertEquals("test", result.get(0).getTitle());
+        assertEquals("test", result.get(1).getTitle());
+    }
+
+    @Test
+    void searchMovies_should_ReturnEmptyListWhenNoMoviesFound() {
+        String keyword = "notExisting";
+        List<Movie> searchResults = List.of();
+
+        when(movieRepository.findByTitleContainingIgnoreCase(keyword)).thenReturn(searchResults);
+
+        List<MovieDto> result = movieService.searchMovies(keyword);
         assertEquals(0, result.size());
     }
 }
