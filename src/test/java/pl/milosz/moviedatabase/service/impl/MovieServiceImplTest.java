@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.milosz.moviedatabase.dto.MovieDto;
 import pl.milosz.moviedatabase.entity.Movie;
+import pl.milosz.moviedatabase.mapper.MovieMapper;
 import pl.milosz.moviedatabase.repository.MovieRepository;
 
 import java.util.Arrays;
@@ -20,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceImplTest {
@@ -33,7 +33,7 @@ class MovieServiceImplTest {
     private MovieServiceImpl movieService;
 
     @Test
-    void saveMovie() {
+    void saveMovie_should_SaveMovie() {
         MovieDto movie = MovieDto.builder().movieId(1L).category(MovieDto.Category.ACTION).title("test").build();;
 
         when(movieRepository.save(any(Movie.class))).thenReturn(new Movie());
@@ -133,5 +133,19 @@ class MovieServiceImplTest {
 
         List<MovieDto> result = movieService.searchMovies(keyword);
         assertEquals(0, result.size());
+    }
+
+    @Test
+    void updateMovie_should_UpdateMovie() {
+        // Given
+        MovieDto movieDto = MovieDto.builder().movieId(1L).category(MovieDto.Category.ACTION).title("test").build();
+        Movie movie = MovieMapper.toEntity(movieDto);
+
+        // When
+        when(movieRepository.save(movie)).thenReturn(movie);
+        movieService.updateMovie(movieDto);
+
+        // Then
+        verify(movieRepository, times(1)).save(movie);
     }
 }
