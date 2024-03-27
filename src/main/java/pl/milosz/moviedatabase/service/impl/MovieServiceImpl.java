@@ -49,4 +49,10 @@ public class MovieServiceImpl implements MovieService {
                 .map(MovieMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public void updateMovie(MovieDto movieDto) {
+        Movie movie = MovieMapper.toEntity(movieDto);
+        movieRepository.save(movie);
+    }
 }
