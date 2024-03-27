@@ -95,7 +95,7 @@ public class MovieController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public String moviePageForm(Model model) {
         model.addAttribute("movie", new MovieDto());
-        model.addAttribute("category", MovieDto.Category.values());
+        model.addAttribute("categories", MovieDto.Category.values());
         return "user/add-movie";
     }
 

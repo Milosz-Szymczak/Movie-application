@@ -70,7 +70,7 @@ class MovieControllerTest {
     void moviePageForm_should_ReturnViewWithMovie_and_Categories() throws Exception {
         mockMvc.perform(get("/add-movie"))
                 .andExpect(model().attribute("movie", new MovieDto()))
-                .andExpect(model().attribute("category", MovieDto.Category.values()))
+                .andExpect(model().attribute("categories", MovieDto.Category.values()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/add-movie"));
     }
