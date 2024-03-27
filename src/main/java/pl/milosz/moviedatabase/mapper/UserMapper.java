@@ -1,8 +1,6 @@
 package pl.milosz.moviedatabase.mapper;
 
-import pl.milosz.moviedatabase.dto.MovieDto;
 import pl.milosz.moviedatabase.dto.UserDto;
-import pl.milosz.moviedatabase.entity.Movie;
 import pl.milosz.moviedatabase.entity.User;
 
 public class UserMapper {
