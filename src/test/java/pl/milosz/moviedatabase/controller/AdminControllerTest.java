@@ -19,7 +19,6 @@ import pl.milosz.moviedatabase.service.MovieService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,7 +38,7 @@ class AdminControllerTest {
     private AwardService awardService;
 
     @Test
-    void managePageTest() throws Exception {
+    void managePage_should_ReturnCorrectView() throws Exception {
         // Given
         List<MovieDto> movies = new ArrayList<>();
         movies.add(MovieDto.builder().title("test").category(MovieDto.Category.ACTION).build());
@@ -57,7 +56,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void updateMoviePage() throws Exception {
+    void updateMoviePage_should_ReturnCorrectView() throws Exception {
         // Given
         Long movieId = 1L;
         Movie movie = new Movie();
@@ -82,7 +81,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void updateMovieForm() throws Exception {
+    void updateMovieForm_should_ReturnCorrectView() throws Exception {
         // Given
         MovieDto movieDto = MovieDto.builder().movieId(1L).title("test").category(MovieDto.Category.ACTION).build();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/update-movie-form")
@@ -99,7 +98,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void updateAwardForm() throws Exception {
+    void updateAwardForm_should_ReturnCorrectView() throws Exception {
         // Given
         long movieId = 1L;
         Long awardId = 1L;
@@ -118,7 +117,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void deleteAward() throws Exception {
+    void deleteAward_should_ReturnCorrectView() throws Exception {
         // Given
         long movieId = 1L;
         Long awardId = 1L;
@@ -135,7 +134,7 @@ class AdminControllerTest {
     }
 
     @Test
-    void awardForm() throws Exception {
+    void awardForm_should_ReturnCorrectView() throws Exception {
         // Given
         Movie movie = Movie.builder().movieId(1L).title("test").category(Movie.Category.ACTION).build();
         Long movieId = 1L;
