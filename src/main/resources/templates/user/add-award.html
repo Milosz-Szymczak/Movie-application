@@ -32,8 +32,8 @@
                         </div>
                             <form th:action="@{/add-award-form/{movieId}(movieId = ${movie.getMovieId()})}" th:object="${award}" method="post" id="awardForm">
                             <div class="mb-3">
-                                <label for="addAward" class="form-label">Title <span class="text-danger">*</span></label>
-                                <input th:object="${award}" th:field="*{awardName}" type="text" class="form-control" id="addAward" name="title" required>
+                                <label for="addAward" class="form-label">Name <span class="text-danger">*</span></label>
+                                <input th:object="${award}" th:field="*{awardName}" type="text" class="form-control" id="addAward" name="name" required>
                             </div>
 
                             <button type="submit" class="btn btn-secondary mb-3">Add Another Award</button>
