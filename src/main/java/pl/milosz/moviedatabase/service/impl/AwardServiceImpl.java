@@ -23,7 +23,7 @@ public class AwardServiceImpl implements AwardService {
     public List<AwardDto> getAwards(Movie movie) {
         List<Award> allAward = awardRepository.findAll();
         return allAward.stream()
-                .filter(c -> c.getMovie().getMovieId().equals(movie.getMovieId()))
+                .filter(award -> award.getMovie().equals(movie))
                 .map(AwardMapper::toDto)
                 .toList();
     }
