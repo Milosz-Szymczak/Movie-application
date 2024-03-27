@@ -46,7 +46,7 @@
             <a th:href="@{'/movie/' + ${movie.movieId}}" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${movie.title}"></h5>
+                        <h5 class="card-title text-info" th:text="${movie.title}"></h5>
                         <p class="card-text">
                             <strong>Release Year:</strong> <span th:text="${movie.releaseYear}"></span><br/>
                             <strong>Category:</strong> <span th:text="${movie.getCategory().name}"></span><br/>
