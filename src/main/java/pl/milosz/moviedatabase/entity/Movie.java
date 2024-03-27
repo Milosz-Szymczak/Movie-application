@@ -5,12 +5,13 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
 @Table(name = "movies")
 public class Movie {
 
@@ -35,6 +36,7 @@ public class Movie {
     private List<Rating> ratings;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Award> awards;
 
     @Getter

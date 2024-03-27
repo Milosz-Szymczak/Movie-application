@@ -3,7 +3,9 @@ package pl.milosz.moviedatabase.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class Award {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @ToString.Exclude
     private Movie movie;
 
     @Column(name = "award_name")

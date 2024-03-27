@@ -1,16 +1,14 @@
 package pl.milosz.moviedatabase.dto;
 
 import lombok.*;
-import pl.milosz.moviedatabase.entity.Award;
-import pl.milosz.moviedatabase.entity.Movie;
-import pl.milosz.moviedatabase.entity.Rating;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Builder
 public class MovieDto {
     private Long movieId;
