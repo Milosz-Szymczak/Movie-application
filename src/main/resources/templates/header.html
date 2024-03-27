@@ -19,11 +19,7 @@
                     </li>
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                         <a class="nav-link active" aria-current="page"
-                           style="font-weight: bold; !important;" th:href="@{/approve-movie}">Approve movie</a>
-                    </li>
-                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                           style="font-weight: bold; !important;" th:href="@{/edit-movie}">Edit movie</a>
+                           style="font-weight: bold; !important;" th:href="@{/manage-movie}">Movie management</a>
                     </li>
                 </ul>
 
