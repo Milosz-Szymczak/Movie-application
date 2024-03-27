@@ -34,7 +34,7 @@
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
                                 <select th:field="*{category}" class="form-select" id="category" name="category" required>
-                                    <option th:each="cat : ${T(pl.milosz.moviedatabase.entity.Movie.Category).values()}" th:value="${cat}" th:text="${cat.name}"></option>
+                                    <option th:each="category : ${categories}" th:value="${category.name()}" th:text="${category.name}"></option>
                                 </select>
                             </div>
 
