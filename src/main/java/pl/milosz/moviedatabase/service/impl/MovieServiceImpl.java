@@ -28,11 +28,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(Long movieId) {
         Optional<Movie> movieById = movieRepository.findById(movieId);
-        if (movieById.isPresent()) {
-            return movieById.get();
-        }else {
-            throw new NoSuchElementException("Movie not found with ID: " + movieId);
-        }
+        return movieById.orElseThrow(() -> new NoSuchElementException("Movie not found with ID: " + movieId));
     }
 
     @Override
