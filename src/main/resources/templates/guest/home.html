@@ -34,7 +34,7 @@
         <div class="form-group">
             <label for="category">Choose a category:</label>
             <select id="category" name="category" class="form-control">
-                <option th:value="ALL_CATEGORIES">All Kinds</option>
+                <option th:value="ALL_CATEGORIES">All categories</option>
                 <option th:each="category : ${categories}" th:value="${category.name()}" th:text="${category.name}"></option>
             </select>
             <button id="button_filter" type="submit" class="btn btn-primary">Filter</button>
