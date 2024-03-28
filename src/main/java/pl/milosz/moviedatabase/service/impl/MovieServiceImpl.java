@@ -2,6 +2,7 @@ package pl.milosz.moviedatabase.service.impl;
 
 import org.springframework.stereotype.Service;
 import pl.milosz.moviedatabase.dto.MovieDto;
+import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.Movie;
 import pl.milosz.moviedatabase.mapper.MovieMapper;
 import pl.milosz.moviedatabase.repository.MovieRepository;

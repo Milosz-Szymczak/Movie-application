@@ -1,5 +1,6 @@
 package pl.milosz.moviedatabase.security.service;
 
+import pl.milosz.moviedatabase.dto.MovieDto;
 import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
 

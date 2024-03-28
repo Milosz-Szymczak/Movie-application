@@ -1,4 +1,4 @@
-package pl.milosz.moviedatabase.security.repository;
+package pl.milosz.moviedatabase.repository;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;

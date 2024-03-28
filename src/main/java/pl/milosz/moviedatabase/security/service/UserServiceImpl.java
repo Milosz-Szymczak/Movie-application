@@ -10,7 +10,7 @@ import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
 import pl.milosz.moviedatabase.exception.UserNotFoundException;
 import pl.milosz.moviedatabase.mapper.UserMapper;
-import pl.milosz.moviedatabase.security.repository.UserRepository;
+import pl.milosz.moviedatabase.repository.UserRepository;
 
 
 import java.util.List;

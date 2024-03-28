@@ -10,11 +10,11 @@ import pl.milosz.moviedatabase.security.config.SecurityConfig;
 import pl.milosz.moviedatabase.security.service.UserService;
 
 @Controller
-public class UserController {
+public class AuthController {
     private final UserService userService;
     private final SecurityConfig securityConfig;
 
-    public UserController(UserService userService, SecurityConfig securityConfig) {
+    public AuthController(UserService userService, SecurityConfig securityConfig) {
         this.userService = userService;
         this.securityConfig = securityConfig;
     }
