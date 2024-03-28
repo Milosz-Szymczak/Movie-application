@@ -4,7 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
     @Override
@@ -58,15 +62,22 @@ public class UserServiceImpl implements UserService {
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
-            Optional<pl.milosz.moviedatabase.entity.User> admin = checkAdminExist();
+            Optional<pl.milosz.moviedatabase.entity.User> adminExist = checkAdminExist();
 
-            if (admin.isEmpty()) {
-                pl.milosz.moviedatabase.entity.User newAdmin = pl.milosz.moviedatabase.entity.User.builder()
+            if (adminExist.isEmpty()) {
+                pl.milosz.moviedatabase.entity.User admin = pl.milosz.moviedatabase.entity.User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("password"))
                         .role(pl.milosz.moviedatabase.entity.User.Role.ADMIN)
                         .build();
-                userRepository.save(newAdmin);
+                userRepository.save(admin);
+
+                UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+                        .username(admin.getUsername())
+                        .password(admin.getPassword())
+                        .roles(String.valueOf(admin.getRole()))
+                        .build();
+                inMemoryUserDetailsManager.createUser(userDetails);
             }
         };
     }
