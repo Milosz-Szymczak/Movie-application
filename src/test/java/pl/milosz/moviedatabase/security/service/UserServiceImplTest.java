@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import pl.milosz.moviedatabase.dto.UserDto;
 import pl.milosz.moviedatabase.entity.User;
 import pl.milosz.moviedatabase.exception.UserNotFoundException;
@@ -35,6 +36,9 @@ class UserServiceImplTest {
 
     @Mock
     private SecurityContext securityContext;
+
+    @Mock
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     @InjectMocks
     private UserServiceImpl userService;
