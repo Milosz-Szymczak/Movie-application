@@ -28,7 +28,7 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/profile}">My profile</a></li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" th:href="@{/profile}">My profile</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link" th:href="@{/login}">Sign in</a></li>
