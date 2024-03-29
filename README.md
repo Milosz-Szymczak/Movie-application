@@ -2,7 +2,7 @@
 This project is designed to store videos added by users. The application includes the ability to register a new user. Users can add videos, search for videos of interest and rate them. The administrator can modify and delete videos.
 ## Table of contents
 * [Technologies](#Technologies)
-* [Functionalities of Movie Database App](Functionalities-of-Movie-Database-App)
+* [Functionalities of Movie Database App](#Functionalities-of-Movie-Database-App)
 * [Setup](#Setup)
 * [Screenshots](#Screenshots)
 
@@ -28,7 +28,7 @@ This is a web application built with:
 * Registration
 * Adding movie and awards
 * Viewing movie
-* Filtering books by categories
+* Filtering movies by categories
 * Search by title
 * Administrator can modify and delete movies and adwards
 
