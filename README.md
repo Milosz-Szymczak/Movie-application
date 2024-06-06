@@ -41,7 +41,7 @@ mvnw package
 docker-compose build
 docker-compose up
 ```
-You can then access the Movie Database at http://localhost:8080/.
+You can then access the Movie Application at http://localhost:8080/.
 
 #### Administrator login details:
 Login: admin <br/>
