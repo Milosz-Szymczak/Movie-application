@@ -1,4 +1,4 @@
-# Movie Database
+# Movie Application
 This project is designed to store videos added by users. The application includes the ability to register a new user. Users can add videos, search for videos of interest and rate them. The administrator can modify and delete videos.
 ## Table of contents
 * [Technologies](#Technologies)
